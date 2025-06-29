@@ -1,0 +1,105 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Weather WhatsApp Bot API",
+      "version": "1.0.0",
+      "description": "API that receives WhatsApp messages, fetches weather info, and replies via Twilio WhatsApp."
+    },
+    "paths": {
+      "/api/whatsapp": {
+        "post": {
+          "summary": "Receive a WhatsApp message and send weather info",
+          "description": "Handles incoming WhatsApp messages. The message body is the location to get weather for.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/x-www-form-urlencoded": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "Body": {
+                      "type": "string",
+                      "description": "Text sent by the user (location name)"
+                    },
+                    "From": {
+                      "type": "string",
+                      "description": "Sender's WhatsApp number"
+                    }
+                  },
+                  "required": ["Body", "From"]
+                },
+                "example": {
+                  "Body": "Cape Town",
+                  "From": "whatsapp:+27780001111"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Message processed successfully"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/api/health": {
+        "get": {
+          "summary": "Health check endpoint",
+          "description": "Checks the status of dependencies (OpenStreetMap, OpenWeatherMap, Twilio).",
+          "responses": {
+            "200": {
+              "description": "Healthy",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "example": "ok"
+                      },
+                      "dependencies": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "string",
+                          "example": "ok"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "One or more dependencies are unhealthy"
+            }
+          }
+        }
+      },
+      "/api/docs": {
+        "get": {
+          "summary": "Serve OpenAPI specification",
+          "description": "Returns the OpenAPI spec in JSON format.",
+          "responses": {
+            "200": {
+              "description": "OpenAPI JSON document",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
