@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather WhatsApp Bot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+    text-align: left;
+      padding: 20px;
+    }
+    h1 {
+      color: #0078d7;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin: 10px 0;
+    }
+    a {
+      text-decoration: none;
+      color: #0078d7;
+      font-weight: bold;
+    }
+    a:hover {
+      color: #0056a3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Weather WhatsApp Bot</h1>
+  <p>Here are some useful API endpoints:</p>
+  <ul id="api-list"></ul>
+
+  <script>
+    const vercelDomain = window.location.hostname === "localhost" 
+      ? "http://localhost:3000" 
+      : "https://weather-whatsapp-bot.vercel.app";
+    const urls = [
+      { name: "Health Check", path: "/api/health" },
+      { name: "API Documentation", path: "/api/docs" },
+      { name: "WhatsApp Integration", path: "/api/whatsapp" }
+    ];
+
+    const apiList = document.getElementById("api-list");
+    urls.forEach(url => {
+      const listItem = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = `${vercelDomain}${url.path}`;
+      link.textContent = `${vercelDomain}${url.path} (${url.name})`;
+      listItem.appendChild(link);
+      apiList.appendChild(listItem);
+    });
+  </script>
+</body>
+</html>
